@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <title>Attendance Records</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Google Fonts (Poppins & Orbitron) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Purana background */
         body {
             background: url('/face2_bg.png') no-repeat center center fixed,
                 radial-gradient(circle at 20% 20%, #0f2027, #203a43, #2c5364);
@@ -18,15 +16,13 @@
             color: #fff;
             font-family: 'Orbitron', 'Poppins', sans-serif;
         }
-
-        /* Neon glow card */
         .glow-box, .card {
             background: rgba(0, 0, 0, 0.75);
             border-radius: 22px;
-            box-shadow: 
-                0 0 30px #00f0ff, 
+            box-shadow:
+                0 0 30px #00f0ff,
                 0 0 60px #0077b6,
-                0 10px 28px rgba(29,41,63,0.15), 
+                0 10px 28px rgba(29,41,63,0.15),
                 0 2px 4px rgba(60,92,125,0.07);
             padding: 20px;
             animation: glow 2s infinite alternate;
@@ -35,45 +31,29 @@
             from { box-shadow: 0 0 15px #00f0ff; }
             to { box-shadow: 0 0 40px #00f0ff, 0 0 80px #0077b6; }
         }
-
-        /* Purana table + Neon adjustments */
         .table {
             border-radius: 16px;
             overflow: hidden;
-            margin-bottom: 0;
             background: rgba(0,0,0,0.6);
             border: 1px solid #00f0ff;
             color: #fff;
         }
-        .table-hover tbody tr:hover,
-        .table tbody tr:hover {
+        .table-hover tbody tr:hover {
             background-color: rgba(0, 240, 255, 0.1) !important;
             box-shadow: inset 0 0 10px #00f0ff;
             transform: scale(1.01);
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-        th, td {
-            vertical-align: middle !important;
+            transition: 0.2s;
         }
         th {
             background: #343a40 !important;
             color: #00f0ff !important;
             text-shadow: 0 0 10px #00f0ff;
         }
-
-        /* Title and headers neon */
-        .table-title, h1, h2, h3, .table thead, .card-title {
+        .table-title {
             color: #00f0ff;
             text-shadow: 0 0 10px #00f0ff;
             font-weight: 700;
-            letter-spacing: 1px;
         }
-        .icon-header {
-            color: #6351ce;
-            text-shadow: 0 0 5px #00f0ff;
-        }
-
-        /* Neon Buttons */
         .btn-custom {
             background: #00f0ff;
             color: #000;
@@ -81,64 +61,136 @@
             border: none;
             transition: 0.3s;
         }
-        .btn-custom:hover {
-            background: #00c4d6;
-            color: #fff;
-            box-shadow: 0 0 20px #00f0ff;
-        }
-
-        /* Purani button hover + neon blend */
-        .btn-lg {
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        .btn-lg:hover, .btn-outline-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #00ffcc, 0 0 20px #00f0ff;
-            border-color: #00f0ff;
-            color: #00f0ff !important;
-        }
-
-        /* Responsive fixes */
-        @media (max-width: 576px) {
-            .card, .glow-box {
-                padding: 12px;
-            }
-        }
     </style>
 </head>
+
 <body>
-    <div class="container d-flex flex-column justify-content-center align-items-center" style="min-height:95vh;">
-        <div class="glow-box card p-4 w-100" style="max-width: 800px;">
-            <h2 class="table-title mb-4 text-center">
-                <i class="fas fa-calendar-check icon-header me-2"></i> Attendance Records
-            </h2>
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped align-middle table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="record : ${attendanceList}">
-                            <td th:text="${record.id}">1</td>
-                            <td th:text="${record.name}">John Doe</td>
-                            <td th:text="${record.date}">2025-09-15</td>
-                            <td th:text="${record.time}">10:10</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-4 d-flex justify-content-center">
-                <a href="/" class="btn btn-outline-primary btn-lg btn-custom">
-                    <i class="fas fa-home me-2"></i>Back to Home
-                </a>
-            </div>
+<div class="container d-flex flex-column justify-content-center align-items-center" style="min-height:95vh;">
+    <div class="glow-box card p-4 w-100" style="max-width: 800px;">
+
+        <h2 class="table-title mb-4 text-center">
+            <i class="fas fa-calendar-check me-2"></i> Attendance Records
+        </h2>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="record : ${attendanceList}">
+                    <td th:text="${record.id}">1</td>
+                    <td th:text="${record.name}">John Doe</td>
+                    <td th:text="${record.date}">2025-09-15</td>
+                    <td th:text="${record.time}">10:10</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+
+        <!-- 🔥 DELETE + BACK + CSV BUTTONS -->
+        <div class="mt-4 d-flex justify-content-between flex-wrap gap-2">
+
+            <!-- Delete All Button -->
+            <form action="/attendance/clear" method="post"
+                  onsubmit="return confirm('Are you sure you want to delete ALL attendance records?');">
+
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+                <button type="submit" class="btn btn-danger btn-lg"
+                        style="font-weight:bold; box-shadow: 0 0 15px red;">
+                    <i class="fas fa-trash me-2"></i>Delete All
+                </button>
+            </form>
+
+            <!-- CSV Export Button -->
+            <button type="button" class="btn btn-success btn-lg"
+                    onclick="exportTableToCSV('attendance.csv')"
+                    style="font-weight:bold; box-shadow: 0 0 15px green;">
+                <i class="fas fa-file-csv me-2"></i>Export CSV
+            </button>
+
+            <!-- Back Button -->
+            <a href="/" class="btn btn-outline-primary btn-lg btn-custom">
+                <i class="fas fa-home me-2"></i>Back to Home
+            </a>
+
+        </div>
+
     </div>
+</div>
+
+<!-- Toast Notification Container -->
+<div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+<!-- JS for Toast Notifications -->
+<script>
+    function showToast(message) {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+
+        toast.style.background = 'rgba(0,255,255,0.9)';
+        toast.style.color = '#000';
+        toast.style.padding = '12px 20px';
+        toast.style.marginTop = '10px';
+        toast.style.borderRadius = '8px';
+        toast.style.boxShadow = '0 0 15px #00f0ff';
+        toast.style.fontWeight = 'bold';
+        toast.style.fontFamily = "'Orbitron', sans-serif";
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        toast.innerText = message;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        }, 100);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+</script>
+
+<!-- JS for CSV Export -->
+<script>
+    function downloadCSV(csv, filename) {
+        const csvFile = new Blob([csv], { type: "text/csv" });
+        const downloadLink = document.createElement("a");
+        downloadLink.download = filename;
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+    }
+
+    function exportTableToCSV(filename) {
+        const table = document.querySelector("table");
+        let csv = [];
+        const rows = table.querySelectorAll("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            const cols = rows[i].querySelectorAll("th, td");
+            let row = [];
+            for (let j = 0; j < cols.length; j++) {
+                let data = cols[j].innerText.replace(/"/g, '""');
+                row.push('"' + data + '"');
+            }
+            csv.push(row.join(","));
+        }
+
+        downloadCSV(csv.join("\n"), filename);
+    }
+</script>
+
 </body>
 </html>
+

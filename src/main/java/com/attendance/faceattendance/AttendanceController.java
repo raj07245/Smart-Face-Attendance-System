@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AttendanceController {
@@ -19,7 +20,7 @@ public class AttendanceController {
     }
 
 
-       @GetMapping("/login")
+    @GetMapping("/login")
     public String loginPage() {
         return "login"; // ye login.html ko load karega
     }
@@ -35,14 +36,14 @@ public class AttendanceController {
     public String runScript(Model model) {
         try {
             // Load Python script from resources dynamically
-           ClassLoader classLoader = getClass().getClassLoader();
-           File scriptFile = new File(classLoader.getResource("Scripts/face_attendance/simple_attendance.py").getFile());
-           String scriptPath = scriptFile.getAbsolutePath();
+            ClassLoader classLoader = getClass().getClassLoader();
+            File scriptFile = new File(classLoader.getResource("Scripts/face_attendance/simple_attendance.py").getFile());
+            String scriptPath = scriptFile.getAbsolutePath();
 
-           String pythonPath = "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3";
+            String pythonPath = "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3";
 
-           ProcessBuilder pb = new ProcessBuilder(pythonPath, scriptPath);
-           pb.directory(scriptFile.getParentFile());
+            ProcessBuilder pb = new ProcessBuilder(pythonPath, scriptPath);
+            pb.directory(scriptFile.getParentFile());
 
             Process process = pb.start();
 
@@ -68,12 +69,19 @@ public class AttendanceController {
         return "index"; // same page pe result show hoga
     }
 
-      @GetMapping("/attendance")
+    @GetMapping("/attendance")
     public String viewAttendance(Model model) {
         List<Attendance> records = attendanceRepository.findAll();
         model.addAttribute("attendanceList", records);
         return "attendance"; // attendance.html
     }
 
-    
+    @PostMapping("/attendance/clear")
+    public String clearAttendance() {
+        attendanceRepository.deleteAll();
+        return "redirect:/attendance";
+    }
+
+
+
 }

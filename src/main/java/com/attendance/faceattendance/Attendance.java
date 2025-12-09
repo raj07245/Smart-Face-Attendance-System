@@ -14,6 +14,7 @@ public class Attendance {
     private String status; // Present / Absent
     private String time;
 
+
     // ✅ Getter & Setter for id
     public Long getId() {
         return id;
